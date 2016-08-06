@@ -11,12 +11,47 @@
         <script src="../build/app.js"></script>
 
         <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
-        <h1>basic functionallity is working</h1>
-        <div>
-            <app />
+        <div class="toolbar">
+            Toolbar
         </div>
-        <button type="button" class="btn btn-default">bootstrap working</button>
+
+        <div class="categories-tabbar">
+            Tabbar
+        </div>
+
+        <div id="wrapper">
+            <!-- Sidebar -->
+            <div id="sidebar-wrapper">
+                <ul class="sidebar-nav">
+                    <li class="sidebar-brand">
+                        <a href="#">
+                            Sidebar
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- sidebarr -->
+
+            <!-- Map content -->
+            <div id="page-content-wrapper">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <h1>basic functionallity is working</h1>
+                            <div>
+                                <app />
+                            </div>
+                            <button type="button" class="btn btn-default">bootstrap working</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- map content -->
+
+        </div>
+
     </body>
 </html>

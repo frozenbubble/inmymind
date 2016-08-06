@@ -15,7 +15,9 @@
     "devtron": "^1.2.1",
     "electron-debug": "^1.0.1",
     "electron-prebuilt": "^1.2.7",
+    "jasmine-core": "^2.4.1",
     "ts-loader": "^0.8.2",
+    "tsc": "^1.20150623.0",
     "typescript": "^1.8.10",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
