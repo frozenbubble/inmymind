@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "system",
-    "moduleResolution": "node",
-    "sourceMap": true,
+    "target": "ES6",
+    "module": "commonjs",
+    "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "removeComments": false,
-    "noImplicitAny": true,
-    "suppressImplicitAnyIndexErrors": true
-  }
+    "sourceMap": true
+  },
+
+  "files": [
+    "src/main.ts",
+    "src/app.component.ts",
+    "src/app.spec.ts", 
+    "src/notepicker.component.ts"
+  ]
 }

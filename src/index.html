@@ -2,56 +2,18 @@
     <head>
         <title>In my mind</title>
 
-        <script src="../node_modules/jquery/jquery.min.js"></script>
-        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../node_modules/jquery/jquery.min.js" defer></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js" defer></script>
 
-        <script src="../node_modules/angular2/bundles/angular2-polyfills.js"></script>
-        <script src="../build/common.js"></script>
-        <script src="../build/angular2.js"></script>
-        <script src="../build/app.js"></script>
+        <script src="../build/common.js" defer></script>
+        <script src="../node_modules/angular2/bundles/angular2-polyfills.js" defer></script>
+        <script src="../build/angular2.js" defer></script>
+        <script src="../build/app.js" defer></script>
 
-        <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css"/>
         <link rel="stylesheet" type="text/css" href="style.css" />
     </head>
     <body>
-        <div class="toolbar">
-            Toolbar
-        </div>
-
-        <div class="categories-tabbar">
-            Tabbar
-        </div>
-
-        <div id="wrapper">
-            <!-- Sidebar -->
-            <div id="sidebar-wrapper">
-                <ul class="sidebar-nav">
-                    <li class="sidebar-brand">
-                        <a href="#">
-                            Sidebar
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <!-- sidebarr -->
-
-            <!-- Map content -->
-            <div id="page-content-wrapper">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h1>basic functionallity is working</h1>
-                            <div>
-                                <app />
-                            </div>
-                            <button type="button" class="btn btn-default">bootstrap working</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- map content -->
-
-        </div>
-
+        <app></app>
     </body>
 </html>
