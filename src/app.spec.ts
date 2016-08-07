@@ -1,5 +1,5 @@
 /// <reference path="../typings/globals/jasmine/index.d.ts" />
-import {App} from './app';
+import {AppComponent} from './app.component';
 
 
 describe('1st tests', () => {

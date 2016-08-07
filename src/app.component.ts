@@ -8,9 +8,7 @@ import {Component} from 'angular2/core';
             In my mind
         </h1>`
 })
-export class App {
+export class AppComponent {
     constructor(){}
 
 }
-
-bootstrap(App);

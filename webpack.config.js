@@ -14,8 +14,8 @@ module.exports = {
             'angular2/router',
             'angular2/http'
         ],
-        'app': './src/app',
-        'test': './src/asd.spec'//, './src/qwe.spec']
+        'app': './src/main',
+        'test': './src/app.spec'//, './src/qwe.spec']
     },
 
     output: {
