@@ -8,10 +8,11 @@
     "sourceMap": true
   },
 
-  "files": [
-    "src/main.ts",
-    "src/app.component.ts",
-    "src/app.spec.ts", 
-    "src/notepicker.component.ts"
-  ]
+  "exclude": [
+		"node_modules",
+		"bower_components",
+		"jspm_packages",
+		"tmp",
+		"temp"
+	]
 }
