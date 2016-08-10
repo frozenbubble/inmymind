@@ -1,20 +1,18 @@
 import {bootstrap} from 'angular2/platform/browser';
 import {Component} from 'angular2/core';
 
-import {NotePickerComponent} from './notepicker.component';
-import {NoteEditorComponent} from './noteeditor.component';
+import { NotePickerComponent } from './notepicker.component';
+import { NoteEditorComponent } from './noteeditor.component';
+import { CategoriesComponent } from './categories.component'
+import { NotebookProviderService } from './noteprovider.service';
+import { Category, Map, Node } from './notemodel';
 
 @Component({
     selector: 'app',
-    directives: [NotePickerComponent, NoteEditorComponent],
+    directives: [NotePickerComponent, NoteEditorComponent, CategoriesComponent],
+    providers: [NotebookProviderService],
     template: `
-        <div class="toolbar">
-            Toolbar
-        </div>
-
-        <div class="categories-tabbar">
-            Tabbar
-        </div>
+        <categories></categories>
         
         <div id="wrapper">
             <notepicker></notepicker>
@@ -22,7 +20,12 @@ import {NoteEditorComponent} from './noteeditor.component';
         </div>`
 })
 export class AppComponent {
-    constructor(){}
+    constructor(private notebookService: NotebookProviderService){
+        this.notebook = notebookService.getNotes();
+        console.log(this.notebook);
+    }
+
+    notebook: Category[];
 
     getAsd() {
         return 0;

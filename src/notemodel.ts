@@ -8,15 +8,17 @@ export class Node {
     connections: Node[];
 }
 
-export class Note {
+export class Map {
+    id: number;
     title: string;
     createdAt: Date;
     lastSynced: Date;
+    lastModified: Date;
     nodes: Node[];
 
 }
 
-export class Notebook {
+export class Category {
     title: string;
-    notes: Note[];
+    notes: Map[];
 }

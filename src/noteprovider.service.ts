@@ -1,14 +1,34 @@
 import { Component } from 'angular2/core';
 
-const fs = require('fs');
+import {Map, Category} from './notemodel';
 
-export class NoteProvider 
+//const fs = require('fs');
+const book = require('./assets/store.js').book;
+
+export class NotebookProviderService 
 {
     getNotes() {
-        return [
+        console.log(book);
+
+        return DateHelper.Deserialize(book);
+    }
+}
+
+class DateHelper {
+    public static Deserialize(data: string) {
+        return JSON.parse(data, DateHelper.ExtractDate)
+    }
+
+    public static ExtractDate(key: any, value: any) {
+        if (typeof value === 'string')
+        {
+            let timestamp = Date.parse(value);
+            if (timestamp !== NaN)
             {
-                notebook: "notebook1",
+                return new Date(timestamp);
             }
-        ];
+        }
+
+        return value;
     }
 }
