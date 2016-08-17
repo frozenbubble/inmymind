@@ -1,15 +1,19 @@
-import { Component } from 'angular2/core';
+import { Component, Input } from 'angular2/core';
+
+import { Node } from './notemodel'
 
 @Component({
     selector: 'node',
     template: `
         <div id="node" class="node" draggable="true" (click)="select($event)"
             (dragstart)="drag($event)" (dragend)="dragend($event)">
-            This is a node.
+            {{content.content}}
         </div>`
 })
 export class NodeComponent
 {
+    @Input() content: Node = new Node();
+
     private positionCache: any[] = [];
     x: number;
     y: number;    

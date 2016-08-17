@@ -1,10 +1,13 @@
 export enum NodeType {
-    Text, Image, Audio, Video
+    Text, Image, Audio, Video, Portal
 }
 
 export class Node {
     type: NodeType;
     content: string;
+    posX: number;
+    posY: number;
+    background: string;
     connections: Node[];
 }
 
@@ -20,5 +23,5 @@ export class Map {
 
 export class Category {
     title: string;
-    notes: Map[];
+    maps: Map[];
 }

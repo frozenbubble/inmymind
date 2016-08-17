@@ -2,14 +2,23 @@ module.exports = {
     book:`[
             {
                 "title": "Personal",
-                "Notes": [
+                "maps": [
                     {
                         "id": 1,
                         "title": "personal1",
                         "createdAt": "2016.01.01",
                         "lastSynced": "2016.01.01",
                         "lastModified": "2016.01.01",
-                        "nodes": []
+                        "nodes": [
+                            {
+                                "type": "Text",
+                                "content": "personal1/node1",
+                                "posX": 0,
+                                "posY": 0,
+                                "background": "pink",
+                                "connections": []
+                            }
+                        ]
                     },
                     {
                         "id": 2,
@@ -31,7 +40,7 @@ module.exports = {
             },
             {
                 "title": "Work",
-                "Notes": [
+                "maps": [
                     {
                         "id": 4,
                         "title": "work1",
@@ -60,7 +69,7 @@ module.exports = {
             },
             {
                 "title": "Education",
-                "Notes": [
+                "maps": [
                     {
                         "id": 7,
                         "title": "edu1",

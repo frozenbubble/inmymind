@@ -20,11 +20,10 @@ class DateHelper {
     }
 
     public static ExtractDate(key: any, value: any) {
-        if (typeof value === 'string')
-        {
+        if (typeof value === 'string') {
             let timestamp = Date.parse(value);
-            if (timestamp !== NaN)
-            {
+
+            if (!Number.isNaN(timestamp)) {
                 return new Date(timestamp);
             }
         }
