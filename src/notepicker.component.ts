@@ -8,11 +8,11 @@ import { Category, Map } from './notemodel';
 @Component({
     selector: 'notepicker',
     template: `
-        <nav class="nav-group">
+        <nav class="nav-group" (mouseover)="showAdd(true)" (mouseout)="showAdd(false)">
             <h5 class="nav-group-title category-title" (click)="toggle()">
                 <span class="icon" [class.icon-down-open]="opened" [class.icon-right-open]="!opened"></span>
                     {{category.title}}
-                <span class="icon icon-plus pull-right"></span>
+                <span *ngIf="inFocus" class="icon icon-plus pull-right"></span>
             </h5>
             <div *ngIf="opened">
                 <span class="nav-group-item" (click)="select(m)" *ngFor="let m of category.maps" [class.active]="m.id === selectedMap.id">
@@ -27,6 +27,7 @@ export class NotePickerComponent {
     @Output() onSelect = new EventEmitter<Map>();
     
     private opened: boolean = false;
+    private inFocus = false;
 
     select(m: Map) {
         this.selectedMap = m;
@@ -35,5 +36,10 @@ export class NotePickerComponent {
 
     toggle() {
         this.opened = !this.opened;
+    }
+
+    showAdd(value: boolean) {
+        this.inFocus = value;
+        console.log(value);
     }
 }
