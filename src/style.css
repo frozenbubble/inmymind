@@ -27,3 +27,11 @@
 .imm-footer {
     background-color: blue;
 }
+
+.picker-button:hover{
+    color: rgb(152, 152, 152);
+}
+
+.picker-button:active{
+    color: rgb(192, 192, 192);
+}
