@@ -4,7 +4,7 @@ module.exports = {
                 "title": "Personal",
                 "maps": [
                     {
-                        "id": 1,
+                        "id": "1",
                         "title": "personal1",
                         "createdAt": "2016.01.01",
                         "lastSynced": "2016.01.01",
@@ -21,7 +21,7 @@ module.exports = {
                         ]
                     },
                     {
-                        "id": 2,
+                        "id": "2",
                         "title": "personal2",
                         "createdAt": "2016.01.02",
                         "lastSynced": "2016.01.02",
@@ -29,7 +29,7 @@ module.exports = {
                         "nodes": []
                     },
                     {
-                        "id": 3,
+                        "id": "3",
                         "title": "personal3",
                         "createdAt": "2016.01.03",
                         "lastSynced": "2016.01.03",
@@ -42,7 +42,7 @@ module.exports = {
                 "title": "Work",
                 "maps": [
                     {
-                        "id": 4,
+                        "id": "4",
                         "title": "work1",
                         "createdAt": "2016.01.01",
                         "lastSynced": "2016.01.01",
@@ -50,7 +50,7 @@ module.exports = {
                         "nodes": []
                     },
                     {
-                        "id": 5,
+                        "id": "5",
                         "title": "work2",
                         "createdAt": "2016.01.02",
                         "lastSynced": "2016.01.02",
@@ -58,7 +58,7 @@ module.exports = {
                         "nodes": []
                     },
                     {
-                        "id": 6,
+                        "id": "6",
                         "title": "work3",
                         "createdAt": "2016.01.03",
                         "lastSynced": "2016.01.03",
@@ -71,7 +71,7 @@ module.exports = {
                 "title": "Education",
                 "maps": [
                     {
-                        "id": 7,
+                        "id": "7",
                         "title": "edu1",
                         "createdAt": "2016.01.01",
                         "lastSynced": "2016.01.01",
@@ -79,7 +79,7 @@ module.exports = {
                         "nodes": []
                     },
                     {
-                        "id": 8,
+                        "id": "8",
                         "title": "edu2",
                         "createdAt": "2016.01.02",
                         "lastSynced": "2016.01.02",
@@ -87,7 +87,7 @@ module.exports = {
                         "nodes": []
                     },
                     {
-                        "id": 9,
+                        "id": "9",
                         "title": "edu3",
                         "createdAt": "2016.01.03",
                         "lastSynced": "2016.01.03",

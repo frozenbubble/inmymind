@@ -28,9 +28,9 @@ import { ToolbarComponent } from './toolbar.component';
                 </div>
             </div>
             
-            <footer class="toolbar-footer imm-footer">
+            <!-- <footer class="toolbar-footer imm-footer">
                 <h1 class="title">Footer</h1>
-            </footer>
+            </footer> -->
         </div>`
 })
 export class AppComponent {

@@ -4,7 +4,9 @@ import { Component } from 'angular2/core';
     selector: 'toolbar',
     template: `
         <header class="toolbar-header imm-header">
-            <h1 class="title">Header</h1>
+            <button class="btn btn-default">
+                <span class="icon icon-doc-text"></span>
+            </button>
         </header>`
 })
 export class ToolbarComponent {

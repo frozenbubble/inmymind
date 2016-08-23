@@ -12,7 +12,7 @@ export class Node {
 }
 
 export class Map {
-    id: number;
+    id: string;
     title: string;
     createdAt: Date;
     lastSynced: Date;

@@ -20,8 +20,8 @@
 }
 
 .imm-header {
-    background-color: yellow;
-    /*height: 3em;*/
+    background-color: rgb(215, 213, 215);
+    /*height: 2.5em;*/
 }
 
 .imm-footer {
@@ -34,4 +34,8 @@
 
 .picker-button:active{
     color: rgb(192, 192, 192);
+}
+
+input:focus {
+    outline-color: rgb(0, 131, 255);
 }
