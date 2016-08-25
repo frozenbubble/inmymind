@@ -12,7 +12,7 @@ module.exports = {
                         "nodes": [
                             {
                                 "type": "Text",
-                                "content": "personal1/node1",
+                                "content": "### personal1/node1 long \\nlong long line",
                                 "posX": 0,
                                 "posY": 0,
                                 "background": "pink",

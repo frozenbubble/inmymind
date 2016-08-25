@@ -4,7 +4,7 @@ import { Category, Map } from './notemodel';
 @Directive({
     selector: 'input'
 })
-class NewInput
+export class NewInput
 {
     constructor(public renderer: Renderer, public elementRef: ElementRef) {}
 

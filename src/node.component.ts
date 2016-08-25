@@ -2,12 +2,14 @@ import { Component, Input } from 'angular2/core';
 
 import { Node } from './notemodel'
 
+let marked = require('marked');
+
 @Component({
     selector: 'node',
     template: `
         <div id="node" class="node" draggable="true" (click)="select($event)"
-            (dragstart)="drag($event)" (dragend)="dragend($event)">
-            {{content.content}}
+            (dragstart)="drag($event)" (dragend)="dragend($event)" 
+            [innerHTML]="renderContent()">
         </div>`
 })
 export class NodeComponent
@@ -41,6 +43,10 @@ export class NodeComponent
     }
 
     select(event: MouseEvent) {
-        console.log(event.pageX);
+        console.log(event.pageX);        
+    }
+
+    renderContent() {
+        return marked(this.content.content);
     }
 }
