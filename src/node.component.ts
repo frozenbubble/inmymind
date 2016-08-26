@@ -1,21 +1,39 @@
-import { Component, Input } from 'angular2/core';
+import { Component, Input, EventEmitter, Output } from 'angular2/core';
 
 import { Node } from './notemodel'
 
 let marked = require('marked');
 
+enum Mode {
+    Edit, Object
+}
+
 @Component({
     selector: 'node',
+    directives: [],
     template: `
-        <div id="node" class="node" draggable="true" (click)="select($event)"
-            (dragstart)="drag($event)" (dragend)="dragend($event)" 
-            [innerHTML]="renderContent()">
+        <div class="node" draggable="true" (click)="select($event)"
+            (dragstart)="drag($event)" (dragend)="dragend($event)"
+            (mouseenter)="showButtons(true)" (mouseleave)="showButtons(false)">
+
+            <div *ngIf="displayButtons" class="buttons" >
+                <a (click)="editMode()">edit</a>
+                <a (click)="delete()">delete</a>
+            </div>
+
+            <div>
+                <div class="node-content" [innerHTML]="renderContent()"></div>
+            </div>
+            
         </div>`
 })
 export class NodeComponent
 {
     @Input() content: Node = new Node();
+    @Output() deleteNode = new EventEmitter();
 
+    private displayButtons = false;
+    private mode: Mode = Mode.Object;
     private positionCache: any[] = [];
     x: number;
     y: number;    
@@ -43,10 +61,27 @@ export class NodeComponent
     }
 
     select(event: MouseEvent) {
-        console.log(event.pageX);        
+        console.log(event.pageX); 
+        this.content.content = "## woooow";       
     }
 
     renderContent() {
         return marked(this.content.content);
+    }
+
+    showButtons(show: boolean) {
+        this.displayButtons = show;
+    }
+
+    edit() {
+        this.mode = Mode.Edit;
+    }
+
+    delete () {
+
+    }
+
+    finishEdit() {
+        this.mode = Mode.Object;
     }
 }
