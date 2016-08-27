@@ -7,12 +7,13 @@ module.exports = {
     debug: true,
 
     entry: {
-        'angular2': [
+        '@angular': [
             'rxjs',
             'reflect-metadata',
-            'angular2/core',
-            'angular2/router',
-            'angular2/http'
+            '@angular/core',
+            '@angular/router',
+            '@angular/http',
+            '@angular/common',
         ],
         'app': './src/main',
         'test': './src/app.spec'
@@ -41,7 +42,7 @@ module.exports = {
   },
 
   plugins: [
-    new CommonsChunkPlugin({ name: 'angular2', filename: 'angular2.js', minChunks: Infinity }),
+    new CommonsChunkPlugin({ name: '@angular', filename: '@angular.js', minChunks: Infinity }),
     new CommonsChunkPlugin({ name: 'common',   filename: 'common.js' })
   ]
 };

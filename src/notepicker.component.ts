@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild, Directive, Renderer, ElementRef } from 'angular2/core';
+import { Component, Input, Output, EventEmitter, ViewChild, Directive, Renderer, ElementRef } from '@angular/core';
 import { Category, Map } from './notemodel';
 
 @Directive({

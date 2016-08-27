@@ -1,5 +1,4 @@
-import {bootstrap} from 'angular2/platform/browser';
-import {Component} from 'angular2/core';
+import {Component} from '@angular/core';
 
 import { NotePickerComponent, NewInput } from './notepicker.component';
 import { NoteEditorComponent } from './noteeditor.component';

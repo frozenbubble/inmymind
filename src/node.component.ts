@@ -1,4 +1,6 @@
-import { Component, Input, EventEmitter, Output } from 'angular2/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
+//import { NgSwitch, NgSwitchWhen } from '@angular/common';
+import { NgSwitch, NgSwitchCase } from '@angular/common';
 
 import { Node } from './notemodel'
 
