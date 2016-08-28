@@ -48,7 +48,6 @@ import { ToolbarComponent } from './toolbar.component';
 export class AppComponent {
     constructor(private notebookService: NotebookProviderService){
         this.notebook = notebookService.getNotes();
-        console.log(this.notebook);
     }
 
     notebook: Category[];

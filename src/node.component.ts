@@ -1,6 +1,7 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 //import { NgSwitch, NgSwitchWhen } from '@angular/common';
-import { NgSwitch, NgSwitchCase } from '@angular/common';
+import { NgSwitch, NgSwitchCase, NgModel, FORM_DIRECTIVES } from '@angular/common';
+import { AutoExpand } from './autoExpand.directive'
 
 import { Node } from './notemodel'
 
@@ -12,25 +13,33 @@ enum Mode {
 
 @Component({
     selector: 'node',
-    directives: [],
+    directives: [NgSwitch, NgSwitchCase, FORM_DIRECTIVES, AutoExpand],
     template: `
         <div class="node" draggable="true" (click)="select($event)"
             (dragstart)="drag($event)" (dragend)="dragend($event)"
             (mouseenter)="showButtons(true)" (mouseleave)="showButtons(false)">
 
             <div *ngIf="displayButtons" class="buttons" >
-                <a (click)="editMode()">edit</a>
+                <span [ngSwitch]="mode">
+                    <a *ngSwitchCase="Mode.Object" (click)="edit()">edit</a>
+                    <a *ngSwitchCase="Mode.Edit" (click)="finishEdit()">finish</a>
+                </span>
+
                 <a (click)="delete()">delete</a>
             </div>
 
-            <div>
-                <div class="node-content" [innerHTML]="renderContent()"></div>
+            <div [ngSwitch]="mode">
+                <div *ngSwitchCase="Mode.Object" class="node-content" [innerHTML]="renderContent()"></div>
+                <div *ngSwitchCase="Mode.Edit">
+                    <textarea wrap="off" [(ngModel)]="content.content" autoExpand></textarea>
+                </div>
             </div>
             
         </div>`
 })
 export class NodeComponent
 {
+    Mode = Mode;
     @Input() content: Node = new Node();
     @Output() deleteNode = new EventEmitter();
 
@@ -64,7 +73,6 @@ export class NodeComponent
 
     select(event: MouseEvent) {
         console.log(event.pageX); 
-        this.content.content = "## woooow";       
     }
 
     renderContent() {

@@ -8,8 +8,6 @@ const book = require('./assets/store.js').book;
 export class NotebookProviderService 
 {
     getNotes() {
-        console.log(book);
-
         return DateHelper.Deserialize(book);
     }
 }
