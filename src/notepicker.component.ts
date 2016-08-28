@@ -1,18 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild, Directive, Renderer, ElementRef } from '@angular/core';
 import { Category, Map } from './notemodel';
-
-@Directive({
-    selector: 'input'
-})
-export class NewInput
-{
-    constructor(public renderer: Renderer, public elementRef: ElementRef) {}
-
-    ngOnInit () {
-        this.renderer.invokeElementMethod(this.elementRef.nativeElement, 'focus', []);
-    }
-}
-
+import { NewInput } from './newinput.directive';
 
 @Component({
     selector: 'notepicker',
@@ -26,7 +14,7 @@ export class NewInput
             </h5>
             <div *ngIf="opened">
                 <span *ngIf="addingNewElement" class="nav-group-item" [class.active]="addingNewElement">
-                    <input type="text" class="map-name-input" (focusout)="create($event, false)" (keyup.enter)="create($event, true)"/>
+                    <input newInput type="text" class="map-name-input" (focusout)="create($event, false)" (keyup.enter)="create($event, true)"/>
                 </span>
                 <span class="nav-group-item" (click)="select(m)" *ngFor="let m of category.maps" [class.active]="m.id === selectedMap.id">
                     {{m.title}}

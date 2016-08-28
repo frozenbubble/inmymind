@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 
-import { NotePickerComponent, NewInput } from './notepicker.component';
+import { NotePickerComponent } from './notepicker.component';
+import { NewInput } from './newinput.directive'
 import { NoteEditorComponent } from './noteeditor.component';
 import { NotebookProviderService } from './noteprovider.service';
 import { Category, Map, Node } from './notemodel';
@@ -25,7 +26,7 @@ import { ToolbarComponent } from './toolbar.component';
                                     Add category
                                 </span>
                                 <span *ngIf="addingCategory">
-                                    <input type="text" class="map-name-input" (focusout)="create($event, false)" (keyup.enter)="create($event, true)"/>
+                                    <input newInput type="text" class="map-name-input" (focusout)="create($event, false)" (keyup.enter)="create($event, true)"/>
                                 </span>
                             </h5>
                         </nav>
@@ -39,10 +40,6 @@ import { ToolbarComponent } from './toolbar.component';
                     </div>
                 </div>
             </div>
-            
-            <!-- <footer class="toolbar-footer imm-footer">
-                <h1 class="title">Footer</h1>
-            </footer> -->
         </div>`
 })
 export class AppComponent {
