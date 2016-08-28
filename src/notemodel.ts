@@ -2,6 +2,11 @@ export enum NodeType {
     Text, Image, Audio, Video, Portal
 }
 
+export class Position2D {
+    x: number;
+    y: number;
+}
+
 export class Node {
     type: NodeType;
     content: string;
