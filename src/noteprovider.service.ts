@@ -4,11 +4,25 @@ import {Map, Category} from './notemodel';
 
 const book = require('./assets/store.js').book;
 const fs = require('fs');
+const serializer = require('node-serialize');
 
-export class NotebookProviderService 
+// we need previous notebook
+
+export class NotebookProvider 
 {
     getNotes() {
         return DateHelper.Deserialize(book);
+    }
+
+    save(notebook: Category[], filename: string) {
+        let data = serializer.serialize(notebook);
+        fs.writeFile(filename, data, err => {
+            if (err) {
+                return console.log(err);
+            }
+
+            return console.log(`notebook saved to ${filename}`);
+        });
     }
 }
 

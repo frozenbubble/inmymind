@@ -3,14 +3,14 @@ import {Component} from '@angular/core';
 import { NotePickerComponent } from './notepicker.component';
 import { NewInput } from './newinput.directive'
 import { NoteEditorComponent } from './noteeditor.component';
-import { NotebookProviderService } from './noteprovider.service';
+import { NotebookProvider } from './noteprovider.service';
 import { Category, Map, Node } from './notemodel';
 import { ToolbarComponent } from './toolbar.component';
 
 @Component({
     selector: 'app',
     directives: [NotePickerComponent, NoteEditorComponent, ToolbarComponent, NewInput],
-    providers: [NotebookProviderService],
+    providers: [NotebookProvider],
     template: `
         <div class="window">
             <toolbar></toolbar>
@@ -43,7 +43,7 @@ import { ToolbarComponent } from './toolbar.component';
         </div>`
 })
 export class AppComponent {
-    constructor(private notebookService: NotebookProviderService){
+    constructor(private notebookService: NotebookProvider){
         this.notebook = notebookService.getNotes();
     }
 
