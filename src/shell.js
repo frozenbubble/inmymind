@@ -1,6 +1,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const template = require('./menu.js');
 
 require('electron-debug')({showDevTools: true});
 
@@ -13,8 +14,10 @@ app.on('window-all-closed', () => {
 });
 
 app.on('ready', () => {
-    mainWindow = new BrowserWindow({width: 1200, height: 720});
+    let menu = electron.Menu.buildFromTemplate(template);
+    electron.Menu.setApplicationMenu(null);
 
+    mainWindow = new BrowserWindow({width: 1200, height: 720});
     mainWindow.loadURL(`file://${__dirname}/index.html`);
 
     mainWindow.on('closed', () => {
