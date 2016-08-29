@@ -2,9 +2,8 @@ import { Component } from '@angular/core';
 
 import {Map, Category} from './notemodel';
 
-//const fs = require('fs');
 const book = require('./assets/store.js').book;
-var fs = require('fs');
+const fs = require('fs');
 
 export class NotebookProviderService 
 {

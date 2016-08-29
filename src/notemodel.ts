@@ -10,8 +10,7 @@ export class Position2D {
 export class Node {
     type: NodeType;
     content: string;
-    posX: number;
-    posY: number;
+    position: Position;
     background: string;
     connections: Node[];
 }

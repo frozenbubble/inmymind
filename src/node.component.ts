@@ -16,7 +16,7 @@ enum Mode {
     template: `
         <div class="node" draggable="true" (click)="select($event)"
             (mouseenter)="showButtons(true)" (mouseleave)="showButtons(false)"
-            imm-draggable >
+            imm-draggable [position]="content.position" (onmove)="onmove($event)" >
 
             <div *ngIf="displayButtons" class="buttons" >
                 <span [ngSwitch]="mode">
@@ -46,7 +46,7 @@ export class NodeComponent
     private mode: Mode = Mode.Object;
 
     select(event: MouseEvent) {
-        console.log(event.pageX); 
+        console.log(event.pageX);
     }
 
     renderContent() {
@@ -67,5 +67,9 @@ export class NodeComponent
 
     finishEdit() {
         this.mode = Mode.Object;
+    }
+
+    onmove(position){
+        this.content.position = position;
     }
 }

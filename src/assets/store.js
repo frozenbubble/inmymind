@@ -13,8 +13,7 @@ module.exports = {
                             {
                                 "type": "Text",
                                 "content": "### personal1/node1 long \\nlong long line",
-                                "posX": 0,
-                                "posY": 0,
+                                "position": {"x": 0, "y": 0},
                                 "background": "pink",
                                 "connections": []
                             }

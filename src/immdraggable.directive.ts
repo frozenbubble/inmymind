@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer, HostListener, Input, Output } from '@angular/core'; 
+import { Directive, ElementRef, Renderer, HostListener, Input, Output, EventEmitter } from '@angular/core'; 
 import { Position2D } from './notemodel';
 
 @Directive({
@@ -9,27 +9,31 @@ export class Draggable {
         this.target = element.nativeElement as HTMLElement;
     }
         
-    private positionCache: any[] = [];
+    private positionCache: Position2D[] = [];
     private target: HTMLElement;
     private _position: Position2D = {x: 0, y: 0};
 
     @Input('position')
     set position(pos: Position2D) {
-        this.move(this.target, pos.x, pos.y);
+        this._position = pos || this._position;
+        console.log(this._position)
+        this.move(this.target, this.position);
     }
 
     get position() {
         return this._position;
     }
 
+    @Output() onmove = new EventEmitter<Position2D>();
+
     ngOnInit() {
-        this.move(this.target, this.position.x, this.position.y);
+        this.move(this.target, this.position);
     }
 
     // destructuring
-    move(target: HTMLElement, x: number, y: number) {
-        target.style.left = `${x}px`;
-        target.style.top = `${y}px`;
+    move(target: HTMLElement, pos: Position2D) {
+        target.style.left = `${pos.x}px`;
+        target.style.top = `${pos.y}px`;
     }
 
     @HostListener('dragstart', ['$event'])
@@ -48,8 +52,13 @@ export class Draggable {
         let offset = this.positionCache.pop(); //destructuring
         console.log(offset);
 
-        this.target.style.left = (event.clientX + parseInt(offset.x,10)) + 'px';
-        this.target.style.top = (event.clientY + parseInt(offset.y,10)) + 'px';
+        let newPosition = {
+            x: event.clientX + offset.x,
+            y: event.clientY + offset.y
+        };
+
+        this.move(this.target, newPosition);
+        this.onmove.emit(newPosition);        
 
         event.preventDefault();
         return false;

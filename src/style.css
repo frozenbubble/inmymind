@@ -1,3 +1,7 @@
+:root {
+    --sidebarcolor: red;
+}
+
 .category-title {
     font-size: 16;
 }
@@ -58,7 +62,12 @@ input:focus {
     outline-color: rgb(0, 131, 255);
 }
 
-/*#new-category {
-    text-align: right;
-    font-size: 16;
-}*/
+.sidebar {
+    /*background-color: var(--sidebarcolor);*/
+    /*padding-right: 0.3em;*/
+    min-width: 200px;
+}
+
+.map-name-input {
+    max-width: 160px;
+}
