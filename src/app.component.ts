@@ -6,14 +6,16 @@ import { NoteEditorComponent } from './noteeditor.component';
 import { NotebookProvider } from './noteprovider.service';
 import { Category, Map, Node } from './notemodel';
 import { ToolbarComponent } from './toolbar.component';
+import { NotebookManagerComponent } from './notebookmanager.component'
 
 @Component({
     selector: 'app',
-    directives: [NotePickerComponent, NoteEditorComponent, ToolbarComponent, NewInput],
+    directives: [NotePickerComponent, NoteEditorComponent, ToolbarComponent, NotebookManagerComponent, NewInput],
     providers: [NotebookProvider],
     template: `
         <div class="window">
             <toolbar></toolbar>
+            <notebook-manager></notebook-manager>
             
             <div class="window-content">
                 <div class="pane-group">
