@@ -1,10 +1,12 @@
 var path = require('path');
 var webpack = require('webpack');
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+var webpackTargetElectronRenderer = require('webpack-target-electron-renderer');
 
-module.exports = {
+var options = {
     devtool: 'source-map',
     debug: true,
+    //target: 'electron',
 
     entry: {
         '@angular': [
@@ -46,3 +48,7 @@ module.exports = {
     new CommonsChunkPlugin({ name: 'common',   filename: 'common.js' })
   ]
 };
+
+options.target = webpackTargetElectronRenderer(options);
+
+module.exports = options;
