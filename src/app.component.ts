@@ -4,13 +4,15 @@ import { NotePickerComponent } from './notepicker.component';
 import { NewInput } from './newinput.directive'
 import { NoteEditorComponent } from './noteeditor.component';
 import { NotebookProvider } from './noteprovider.service';
-import { Category, Map, Node } from './notemodel';
+import { Category, Map, Node, Notebook } from './notemodel';
 import { ToolbarComponent } from './toolbar.component';
 import { NotebookManagerComponent } from './notebookmanager.component'
+import { CategoryCreatorComponent } from './categorycreator.component';
 
 @Component({
     selector: 'app',
-    directives: [NotePickerComponent, NoteEditorComponent, ToolbarComponent, NotebookManagerComponent, NewInput],
+    directives: [NotePickerComponent, NoteEditorComponent, ToolbarComponent, NotebookManagerComponent,
+        CategoryCreatorComponent, NewInput],
     providers: [NotebookProvider],
     template: `
         <div class="window">
@@ -20,20 +22,9 @@ import { NotebookManagerComponent } from './notebookmanager.component'
             <div class="window-content">
                 <div class="pane-group">
                     <div class="pane-sm sidebar">
-                        
-                        <nav class="nav-group">
-                            <h5 class="nav-group-title category-title">
-                                <span class="icon icon-plus-circled picker-button" (click)="addCategory()"></span>
-                                <span *ngIf="!addingCategory">
-                                    Add category
-                                </span>
-                                <span *ngIf="addingCategory">
-                                    <input newInput type="text" class="map-name-input" (focusout)="create($event, false)" (keyup.enter)="create($event, true)"/>
-                                </span>
-                            </h5>
-                        </nav>
+                        <category-creator (oncreate)="addCategory($event)"></category-creator>
 
-                        <notepicker *ngFor="let c of notebook" [category]="c" 
+                        <notepicker *ngFor="let c of notebook.categories" [category]="c" 
                             (onSelect)="selectMap($event)" [selectedMap]="selectedMap">
                         </notepicker>
                     </div>
@@ -49,26 +40,14 @@ export class AppComponent {
         this.notebook = notebookService.getNotes();
     }
 
-    notebook: Category[];
+    notebook: Notebook;
     selectedMap: Map = new Map();
-    addingCategory: boolean = false;
 
     selectMap(m: Map) {
         this.selectedMap = m;
     }
 
-    create(event, accept:boolean) {
-        this.addingCategory = false;
-
-        if(accept) {
-            let c = new Category();
-            c.title = event.target.value;
-            this.notebook.push(c);
-        }
+    addCategory(c: Category) {
+        this.notebook.categories.push(c);
     }
-
-    addCategory() {
-        this.addingCategory = true;
-    }
-
 }

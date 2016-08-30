@@ -29,3 +29,8 @@ export class Category {
     title: string;
     maps: Map[];
 }
+
+export class Notebook {
+    title: string;
+    categories: Category[];
+}
