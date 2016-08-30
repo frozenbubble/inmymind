@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import {Map, Category} from './notemodel';
+import {Map, Category, Notebook} from './notemodel';
 
 const book = require('./assets/store.js').book;
 const fs = require('fs');
@@ -23,6 +23,22 @@ export class NotebookProvider
 
             return console.log(`notebook saved to ${filename}`);
         });
+    }
+
+    getLastUsedNotebook() {
+        return this.getNotes();
+    }
+
+    getKnownNotebooks() {
+        return [this.getNotes()];
+    }
+
+    createNotebook(filename: string, notebook: Notebook) {
+
+    }
+
+    openNotebook(filename: string) {
+        
     }
 }
 
