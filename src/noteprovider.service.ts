@@ -2,20 +2,48 @@ import { Component } from '@angular/core';
 
 import {Map, Category, Notebook} from './notemodel';
 
-const book = require('./assets/store.js').book;
-const fs = require('fs');
-const serializer = require('node-serialize');
+import fs = require('fs');
+import path = require('path');
 
-// we need previous notebook
+const {dialog} = require('electron');
+const book = require('./assets/store.js').book;
+const process = require('process');
+const serializer = require('node-serialize');
+const storage = require('electron-json-storage');
+
+// we need previous notebooks
 
 export class NotebookProvider 
 {
-    getNotes() {
-        return DateHelper.Deserialize(book);
+    private registry = {
+        lastUsed: "",
+        notebooks: {}
     }
 
-    save(notebook: Category[], filename: string) {
+    constructor(){
+        this.checkRegistry().then(() => {
+            storage.get('registry', (error, data) => {
+                // error handling        
+                this.registry = data;
+            });
+        }, () => {
+            storage.set('registry', this.registry, (error) => {
+                // error handling
+                console.log(error);
+            });
+        });
+    }
+
+
+    getNotes(notebook: string) {
+        let nb = require(this.registry.notebooks[notebook]);
+
+        return serializer.deserialize(nb);
+    }
+
+    save(notebook: Notebook) {
         let data = serializer.serialize(notebook);
+        let filename = this.registry[notebook.title]
         fs.writeFile(filename, data, err => {
             if (err) {
                 return console.log(err);
@@ -26,19 +54,52 @@ export class NotebookProvider
     }
 
     getLastUsedNotebook() {
-        return this.getNotes();
+        return this.registry.lastUsed == "" ? null : this.getNotes(this.registry.lastUsed);
     }
 
     getKnownNotebooks() {
-        return [this.getNotes()];
+        return Object.keys(this.registry.notebooks);
     }
 
-    createNotebook(filename: string, notebook: Notebook) {
+    createNotebook(filename: string, notebook: string) {
+        this.registry.notebooks[notebook] = filename;
 
+        this.saveSettings('registry', this.registry);
     }
 
-    openNotebook(filename: string) {
+    openNotebook() {
+        let options = {
+            filters: [{name: 'imm', extensions:['imm']}]
+        };
+
+        dialog.showOpenDialog(options, fileName => {
+
+        });
+    }
+
+    removeNotebook(n: Notebook, permanent: boolean) {
         
+    }
+
+    saveSettings(type: string, obj) {
+        storage.set(type, obj, err => {
+            //error handling
+            console.log(err);
+        });
+    }
+
+    getSettings(type: string){}
+
+    checkRegistry() {
+        return new Promise((resolve, reject) => {
+           storage.has('registry', (error, hasKey) =>{
+               if (hasKey) {
+                   resolve();
+               } else {
+                   reject();
+               }
+           });
+        });
     }
 }
 
