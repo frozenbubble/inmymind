@@ -5,45 +5,76 @@ import {Map, Category, Notebook} from './notemodel';
 import fs = require('fs');
 import path = require('path');
 
-const {dialog} = require('electron');
+const {dialog} = require('electron').remote;
 const book = require('./assets/store.js').book;
 const process = require('process');
 const serializer = require('node-serialize');
-const storage = require('electron-json-storage');
+const settings = require('electron-settings');
 
-// we need previous notebooks
 
 export class NotebookProvider 
 {
-    private registry = {
-        lastUsed: "",
-        notebooks: {}
+    private lastUsed;
+    private notebooks;
+
+    constructor() {
+        this.setDefaults();
+        
+        this.notebooks = settings.getSync('knownNotebooks');
+        this.notebooks = this.checkNotebooks(this.notebooks);
+        this.lastUsed = settings.getSync('lastUsed');
+        
     }
 
-    constructor(){
-        this.checkRegistry().then(() => {
-            storage.get('registry', (error, data) => {
-                // error handling        
-                this.registry = data;
-            });
-        }, () => {
-            storage.set('registry', this.registry, (error) => {
-                // error handling
-                console.log(error);
-            });
+    // this should be in a separate provider
+    setDefaults() {
+        settings.defaults({
+            lastUsed: "",
+            knownNotebooks: {}
         });
     }
 
+    hasNotes() {
+        return Object.keys(this.notebooks).length > 0;
+    }
+
+    checkNotebooks(notebooks) {
+        let checked = {};
+
+        Object.keys(notebooks).forEach(title => {
+           if (fs.existsSync(notebooks[title])) {
+               checked[title] = notebooks[title];
+           } 
+        });
+
+        return checked;
+    }
 
     getNotes(notebook: string) {
-        let nb = require(this.registry.notebooks[notebook]);
+        return new Promise((resolve, reject) => {
+            fs.readFile(notebook, (err, data) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    let nb = serializer.deserialize(data.toString());
+                    resolve(nb);
+                }
+            })
+        });
+    }
 
-        return serializer.deserialize(nb);
+    getNotesSync(notebook: string) {
+        try {
+            return serializer.deserialize(fs.readFileSync(notebook)) as Notebook;
+        } catch (error) {
+            console.log(error);
+            return new Notebook();            
+        }
     }
 
     save(notebook: Notebook) {
         let data = serializer.serialize(notebook);
-        let filename = this.registry[notebook.title]
+        let filename = this.notebooks[notebook.title]
         fs.writeFile(filename, data, err => {
             if (err) {
                 return console.log(err);
@@ -54,17 +85,32 @@ export class NotebookProvider
     }
 
     getLastUsedNotebook() {
-        return this.registry.lastUsed == "" ? null : this.getNotes(this.registry.lastUsed);
+        return this.lastUsed === "" ? null : this.getNotesSync(this.lastUsed);
     }
 
     getKnownNotebooks() {
-        return Object.keys(this.registry.notebooks);
+        return this.notebooks ? Object.keys(this.notebooks) : [];
     }
 
-    createNotebook(filename: string, notebook: string) {
-        this.registry.notebooks[notebook] = filename;
+    createNotebook( notebook: string) {
+        let newNotebook = {
+            title: notebook,
+            categories: []
+        };
 
-        this.saveSettings('registry', this.registry);
+        let options = {
+            title: 'Create Notebook',
+            filters: ['imm']
+        };
+
+        dialog.showSaveDialog(options, filename => {
+            // error handling!!
+            fs.writeFile(filename, newNotebook) 
+            
+            this.notebooks[notebook] = filename;
+            settings.set('notebooks', this.notebooks).catch(err => console.log(err));
+        });
+
     }
 
     openNotebook() {
@@ -72,35 +118,19 @@ export class NotebookProvider
             filters: [{name: 'imm', extensions:['imm']}]
         };
 
-        dialog.showOpenDialog(options, fileName => {
-
+        // this has to be a promise!
+        return new Promise((resolve, reject) => {
+            dialog.showOpenDialog(options, fileName => {
+                return this.getNotes(fileName);
+            });
         });
     }
 
-    removeNotebook(n: Notebook, permanent: boolean) {
+    removeNotebook(n: string, permanent: boolean) {
         
     }
 
-    saveSettings(type: string, obj) {
-        storage.set(type, obj, err => {
-            //error handling
-            console.log(err);
-        });
-    }
-
-    getSettings(type: string){}
-
-    checkRegistry() {
-        return new Promise((resolve, reject) => {
-           storage.has('registry', (error, hasKey) =>{
-               if (hasKey) {
-                   resolve();
-               } else {
-                   reject();
-               }
-           });
-        });
-    }
+    getSettings(type: string) { }
 }
 
 class DateHelper {

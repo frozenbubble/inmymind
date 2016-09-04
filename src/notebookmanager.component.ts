@@ -15,14 +15,17 @@ import { Notebook } from './notemodel';
                     <div class="modal-body">
                         <p *ngFor="let nb of notebooks">
                             <span class="icon icon-book"></span>
-                            {{nb.title}}
+                            {{nb}}
                             <a class="pull-right" (click)="removeNotebook(nb)">
                                 <span class="icon icon-trash pull-right"></span>
                             </a>
                         </p>
+                        <p *ngIf="addingNotebook">
+                            <input type="text" />
+                        </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default pull-left">Create</button>
+                        <button type="button" class="btn btn-default pull-left" (click)="createNotebook()">Create</button>
                         <button type="button" class="btn btn-default pull-left" (click)="openNotebook()">Open</button>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
@@ -35,13 +38,21 @@ export class NotebookManagerComponent {
         this.notebooks = this.notebookProvider.getKnownNotebooks();
     }
 
-    private notebooks: Notebook[];
+    private notebooks: string[];
+    private addingNotebook: boolean = false
 
-    removeNotebook(n: Notebook) {
-        this.notebookProvider.removeNotebook(n);
+    removeNotebook(n: string) {
+        this.notebookProvider.removeNotebook(n, false);
     }
 
-    openNotebook(){
-        this.notebookProvider.openNotebook();
+    openNotebook() {
+        this.notebookProvider.openNotebook().then(() => {
+            this.notebooks = this.notebookProvider.getKnownNotebooks();
+        });
+    }
+
+    createNotebook() {
+        this.addingNotebook = true;
+        this.notebookProvider.createNotebook('saf');
     }
 }

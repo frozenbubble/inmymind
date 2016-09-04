@@ -16,6 +16,15 @@ export class Node {
 }
 
 export class Map {
+    constructor() {
+        this.title = 'New Map';
+        this.id = ''; //GUID?!
+        this.createdAt = new Date();
+        this.lastSynced = new Date();
+        this.lastModified = new Date();
+        this.nodes = [];
+    }
+
     id: string;
     title: string;
     createdAt: Date;
@@ -26,11 +35,21 @@ export class Map {
 }
 
 export class Category {
+    constructor() {
+        this.title = 'New Category';
+        this.maps = [];
+    }
+    
     title: string;
     maps: Map[];
 }
 
 export class Notebook {
+    constructor() {
+        this.title = 'New Notebook';
+        this.categories = [];
+    }
+
     title: string;
     categories: Category[];
 }

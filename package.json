@@ -35,7 +35,7 @@
     "@angular/router-deprecated": "2.0.0-rc.2",
     "@angular/upgrade": "2.0.0-rc.5",
     "bootstrap": "^3.3.6",
-    "electron-json-storage": "^2.0.0",
+    "electron-settings": "^2.2.1",
     "es6-shim": "^0.35.0",
     "jquery": "1.9.1",
     "marked": "^0.3.6",
