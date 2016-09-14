@@ -11,126 +11,164 @@ const process = require('process');
 const serializer = require('node-serialize');
 const settings = require('electron-settings');
 
+class NotebookEntry {
+    title: string;
+    path: string;
+}
 
 export class NotebookProvider 
 {
-    private lastUsed;
-    private notebooks;
+    private lastUsed: string;
+    private lastFolder: string;
+    private notebooks: NotebookEntry[] = [];
 
     constructor() {
         this.setDefaults();
         
-        this.notebooks = settings.getSync('knownNotebooks');
-        this.notebooks = this.checkNotebooks(this.notebooks);
-        this.lastUsed = settings.getSync('lastUsed');
+        let folder = settings.getSync('lastFolder');
+        let lastUsed = settings.getSync('lastUsed');
+        
+        if (folder && folder !== '') {
+            console.log(`last folder: ${folder}`);
+            this.lastFolder = folder;
+            this.notebooks = this.checkFolder(folder);
+
+            if (lastUsed && lastUsed !== '') {
+                this.lastUsed = lastUsed;
+            }
+        }
         
     }
 
     // this should be in a separate provider
-    setDefaults() {
+    private setDefaults() {
         settings.defaults({
             lastUsed: "",
-            knownNotebooks: {}
+            lastFolder:"",
         });
     }
 
-    hasNotes() {
-        return Object.keys(this.notebooks).length > 0;
+    getNotebooks() {
+        return this.notebooks.map(entry => entry.title);
     }
 
-    checkNotebooks(notebooks) {
-        let checked = {};
-
-        Object.keys(notebooks).forEach(title => {
-           if (fs.existsSync(notebooks[title])) {
-               checked[title] = notebooks[title];
-           } 
-        });
-
-        return checked;
-    }
-
-    getNotes(notebook: string) {
+    openNotebook(notebook: string): Promise<Notebook> {
         return new Promise((resolve, reject) => {
-            fs.readFile(notebook, (err, data) => {
+            fs.readFile(this.getPathForTitle(this.lastFolder, notebook), (err, data) => {
                 if (err) {
                     reject(err);
                 } else {
-                    let nb = serializer.deserialize(data.toString());
+                    let nb = JSON.parse(data.toString());
+                    
+                    // error handling
+                    settings.set('lastUsed', notebook);
                     resolve(nb);
                 }
             })
         });
     }
 
-    getNotesSync(notebook: string) {
-        try {
-            return serializer.deserialize(fs.readFileSync(notebook)) as Notebook;
-        } catch (error) {
-            console.log(error);
-            return new Notebook();            
-        }
-    }
-
-    save(notebook: Notebook) {
-        let data = serializer.serialize(notebook);
-        let filename = this.notebooks[notebook.title]
-        fs.writeFile(filename, data, err => {
-            if (err) {
-                return console.log(err);
-            }
-
-            return console.log(`notebook saved to ${filename}`);
-        });
-    }
-
-    getLastUsedNotebook() {
-        return this.lastUsed === "" ? null : this.getNotesSync(this.lastUsed);
-    }
-
-    getKnownNotebooks() {
-        return this.notebooks ? Object.keys(this.notebooks) : [];
-    }
-
-    createNotebook( notebook: string) {
-        let newNotebook = {
-            title: notebook,
-            categories: []
-        };
-
-        let options = {
-            title: 'Create Notebook',
-            filters: ['imm']
-        };
-
-        dialog.showSaveDialog(options, filename => {
-            // error handling!!
-            fs.writeFile(filename, newNotebook) 
+    save(notebook: Notebook, nbPath = undefined) {
+        return new Promise((resolve, reject) =>{
+            let data = JSON.stringify(notebook);
             
-            this.notebooks[notebook] = filename;
-            settings.set('notebooks', this.notebooks).catch(err => console.log(err));
-        });
+            console.log('service notebooks: ' + this.notebooks);
 
-    }
+            // error handling
+            let filename = nbPath || this.getPathForTitle(this.lastFolder, notebook.title);
+            
+            fs.writeFile(filename, data, err => {
+                if (err) {
+                    reject(err);
+                }
 
-    openNotebook() {
-        let options = {
-            filters: [{name: 'imm', extensions:['imm']}]
-        };
-
-        // this has to be a promise!
-        return new Promise((resolve, reject) => {
-            dialog.showOpenDialog(options, fileName => {
-                return this.getNotes(fileName);
+                resolve(filename);                
             });
         });
     }
 
-    removeNotebook(n: string, permanent: boolean) {
-        
+    getLastUsedNotebook() {
+        return new Promise((resolve, reject) => {
+            fs.exists(this.getPathForTitle(this.lastFolder, this.lastUsed), exists => {
+                if (exists) {
+                    resolve(this.lastUsed)
+                } else {
+                    reject('last used notebook not found');
+                }
+            });
+        });
     }
 
-    getSettings(type: string) { }
+    private getPathForTitle(folder, title) {
+        return path.join(folder.toString(), `${title}.imm`);
+    }
+
+    createNotebook(title: string): Promise<string[]> {
+        let notebook = new Notebook(title);
+        let nbPath = this.getPathForTitle(this.lastFolder.toString(), title);
+        console.log(`createing notebook: ${title} to path: ${nbPath}`);
+
+        return new Promise((resolve, reject) => {
+            fs.writeFile(nbPath, JSON.stringify(notebook), err => {
+                if (err) {
+                    reject(err);
+                } else {
+                    this.notebooks.push({title: title, path: nbPath})
+                    resolve (this.getNotebooks());
+                }
+            });
+        });
+    }
+
+    openFolder(): Promise<string[]> {
+        return new Promise((resolve, reject) => {
+            dialog.showOpenDialog({
+                title: 'Open folder',
+                properties: ['openDirectory']
+            }, folder => {
+                this.lastFolder = folder;
+                this.notebooks = this.checkFolder(folder);
+                settings.set('lastFolder', folder);
+
+                resolve(this.notebooks.map(entry => entry.title));
+            });
+        });
+    }
+
+    private getTitleFromPath(p: string) {
+        if (p.endsWith('.imm')) {
+            return p.substr(0, p.length - 4);
+        } else {
+            throw `not an imm map: ${p}`; 
+        }
+    } 
+
+    private checkFolder(folder: string) {
+        console.log(`checking folder: ${folder.toString()}`);
+
+        let notebooks = fs.readdirSync(folder.toString()).filter(x => x.endsWith('.imm'));
+        return notebooks.map(p => {
+            return {
+                title: this.getTitleFromPath(path.basename(p)),
+                path: p
+            };
+        });
+    }
+
+    removeNotebook(notebook: string): Promise<string[]> {
+        let nbPath = this.getPathForTitle(this.lastFolder, notebook);
+
+        return new Promise((resolve, reject) => {
+            fs.unlink(nbPath, err =>{
+                if (err) {
+                    reject(err);
+                } else {
+                    this.notebooks = this.checkFolder(this.lastFolder);
+                    resolve(this.notebooks.map(entry => entry.title));
+                }
+            });
+        });
+    }
 }
 
 class DateHelper {

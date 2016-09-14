@@ -66,6 +66,8 @@ export class NotePickerComponent {
             this.category.maps.sort((a: Map, b: Map) => {
                 return (a.title < b.title) ? (-1) : 1;
             });
+
+            this.onNewMap.emit();
         }
     }
 

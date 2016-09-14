@@ -71,3 +71,48 @@ input:focus {
 .map-name-input {
     max-width: 160px;
 }
+
+#manager-container {
+    max-width: 650px;
+}
+
+.footer-buttons  a {
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
+.footer-buttons {
+    width: 40%;
+    margin: auto;
+}
+
+.new-notebook-title {
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    border-bottom-color: rgb(0, 131, 255);
+    border-bottom-width: 2px;
+    outline: none;
+}
+
+.back-button {
+    padding-left: 0.5em;
+    padding-top: 0.5em;
+    font-size: 18px;
+}
+
+.back-button a:hover {
+    text-decoration: none
+}
+
+.back-button a .icon {
+    font-size: 24px;
+}
+
+/*.manager-entry {
+    font-size: 18px;
+}*/
+
+.manager-entry a:hover {
+    text-decoration: none;
+}

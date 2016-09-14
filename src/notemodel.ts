@@ -45,11 +45,9 @@ export class Category {
 }
 
 export class Notebook {
-    constructor() {
-        this.title = 'New Notebook';
+    constructor(public title: string) {
         this.categories = [];
     }
 
-    title: string;
     categories: Category[];
 }
