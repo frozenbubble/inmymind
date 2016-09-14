@@ -5,10 +5,9 @@ import { Component } from '@angular/core';
     template: `
         <header class="toolbar-header imm-header">
             <div class="toolbar-actions">
-                <button class="btn btn-default" type="button"
-                    data-toggle="modal" data-target="#notebookManager" >
+                <a class="btn btn-default" routerLink="/manager">
                     <span class="icon icon-book"></span>
-                </button>
+                </a>
 
                 <div class="btn-group">
                     <button class="btn btn-default">
