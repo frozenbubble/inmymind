@@ -6,7 +6,7 @@ import { EditorComponent } from './editor.component';
     selector: 'app',
     directives: [EditorComponent],
     template: `
-        <editor></editor>`
+        <router-outlet></router-outlet>`
 })
 export class AppComponent {
     
