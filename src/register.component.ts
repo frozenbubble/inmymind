@@ -22,7 +22,9 @@ export class RegisterComponent {
     username: string = "";
     regIframe: any;
 
-    constructor (private zkit: ZkitService) {
+    constructor (private zkit: ZkitService) { }
+
+    ngOnInit() {
         this.regIframe =  zkit_sdk.getRegistrationIframe(document.getElementById('regIframe'));
     }
 
