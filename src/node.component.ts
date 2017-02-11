@@ -1,6 +1,6 @@
 import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { NgSwitch, NgSwitchCase, NgModel, FORM_DIRECTIVES } from '@angular/common';
-import { AutoExpand } from './autoExpand.directive'
+import { AutoExpand } from './autoexpand.directive'
 import { Node } from './notemodel'
 import { Draggable } from './immdraggable.directive'
 
