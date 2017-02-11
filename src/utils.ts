@@ -1,8 +1,8 @@
 export class Utils {
-    readonly apiUrl = "";
+    static apiUrl: string = "http://localhost:3000";
 
     static callServer (urlPart, obj){
-        var url = '/api/' + urlPart;
+        var url = this.apiUrl + '/api/' + urlPart;
         console.log(url);
         return new Promise(function (resolve, reject) {
             var xhr = new XMLHttpRequest();
