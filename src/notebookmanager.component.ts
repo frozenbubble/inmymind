@@ -3,12 +3,13 @@ import { Router } from '@angular/router';
 import { NotebookProvider } from './noteprovider.service';
 import { NewInput } from './newinput.directive'
 import { Notebook } from './notemodel';
+import { RegisterComponent } from './register.component'
 
 const {dialog} = require('electron').remote;
 
 @Component({
     selector: 'notebook-manager',
-    directives: [NewInput],
+    directives: [NewInput, RegisterComponent],
     template: `
         <div class="text-left back-button" *ngIf="canGoBack">
             <a (click)="goBack()">
@@ -43,7 +44,10 @@ const {dialog} = require('electron').remote;
                 <a class="btn btn-default pull-left" (click)="showNotebookInput(true)">Create</a>
                 <a class="btn btn-default pull-right" (click)="openFolder()">Open folder</a>
             </div>
-        </div>`
+        </div>
+        
+        <br/>
+        <register-form></register-form>`
 })
 export class NotebookManagerComponent implements OnInit {
     constructor(private notebookProvider: NotebookProvider, private router: Router) {

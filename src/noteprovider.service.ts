@@ -23,8 +23,6 @@ export class NotebookProvider
     private notebooks: NotebookEntry[] = [];
 
     constructor() {
-        this.setDefaults();
-        
         let folder = settings.getSync('lastFolder');
         let lastUsed = settings.getSync('lastUsed');
         
@@ -38,14 +36,6 @@ export class NotebookProvider
             }
         }
         
-    }
-
-    // this should be in a separate provider
-    private setDefaults() {
-        settings.defaults({
-            lastUsed: "",
-            lastFolder:"",
-        });
     }
 
     getNotebooks() {
