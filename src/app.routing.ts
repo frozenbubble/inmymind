@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EditorComponent } from './editor.component'
 import { NotebookManagerComponent } from './notebookmanager.component'
 import { WelcomeScreenComponent } from './welcomescreen.component';
+import { OnboardingComponent } from './onboarding.component';
 
 const appRoutes = [
     {
@@ -17,6 +18,10 @@ const appRoutes = [
     {
         path: 'manager',
         component: NotebookManagerComponent
+    },
+    {
+        path: 'onboarding',
+        component: OnboardingComponent
     }
 ];
 
