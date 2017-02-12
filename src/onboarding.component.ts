@@ -9,7 +9,7 @@ import { RegisterComponent } from './register.component';
         <div class="text-center">
             <h3>Welcome to In my mind</h3>
         
-            <p>
+            <p class="onboarding-text">
                 To enable enable end to end encrypted cloud sync, create an account.
                 You can also use In my mind offline for free and save you notes to files.
             </p>
